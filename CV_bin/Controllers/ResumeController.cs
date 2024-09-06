@@ -45,7 +45,7 @@ namespace CV_bin.Controllers
 
             ViewBag.Tax = tax;
             ViewBag.Income = income;
-            ViewBag.Page = 6; // Show tax results on the tax page
+            ViewBag.Page = 6;
             return View("Resume", _resumeModel);
         }
     }
