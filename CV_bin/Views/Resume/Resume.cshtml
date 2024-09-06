@@ -1,0 +1,128 @@
+﻿@model CV_bin.Models.ResumeModels
+@{
+    ViewData["Title"] = "Resume";
+    var page = ViewBag.Page ?? 1;
+}
+<link rel="stylesheet" href="~/css/resume.css" />
+
+<h2>Resume</h2>
+
+@if (page == 1)
+{
+    <h3>Personal Details</h3>
+    <p><strong>Name:</strong> @Model.Name</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Phone:</strong> @Model.Phone</p>
+    <p><strong>Location:</strong> @Model.Location</p>
+    <p><strong>LinkedIn:</strong> <a href="https://@Model.LinkedIn" target="_blank">@Model.LinkedIn</a></p>
+    <p><strong>GitHub:</strong> <a href="@Model.GitHub" target="_blank">@Model.GitHub</a></p>
+}
+else if (page == 2)
+{
+    <h3>Skills & Technologies</h3>
+    <div class="skills-technologies-container">
+        <div class="skills-section">
+            <h4>Skills</h4>
+            <ul>
+                @foreach (var skill in Model.Languages)
+                {
+                    <li>@skill</li>
+                }
+            </ul>
+        </div>
+        <div class="technologies-section">
+            <h4>Technologies</h4>
+            <ul>
+                @foreach (var tech in Model.Technologies)
+                {
+                    <li>@tech</li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+else if (page == 3)
+{
+    <h3>Professional Experience</h3>
+    @foreach (var experience in Model.Experiences)
+    {
+        <h4>@experience.Title</h4>
+        <p><strong>Company:</strong> @experience.Company</p>
+        <p><strong>Duration:</strong> @experience.Duration</p>
+        <p><strong>Location:</strong> @experience.Location</p>
+        <ul>
+            @foreach (var responsibility in experience.Responsibilities)
+            {
+                <li>@responsibility</li>
+            }
+        </ul>
+    }
+}
+else if (page == 4)
+{
+    <h3>Education</h3>
+    @foreach (var education in Model.Education)
+    {
+        <h4>@education.Degree</h4>
+        <p><strong>Institution:</strong> @education.Institution</p>
+        <p><strong>Duration:</strong> @education.Duration</p>
+        <p><strong>Location:</strong> @education.Location</p>
+        <p><strong>Project:</strong> @education.Project</p>
+    }
+
+    <h3>Certifications</h3>
+    <ul>
+        @foreach (var certification in Model.Certifications)
+        {
+            <li>@certification</li>
+        }
+    </ul>
+}
+else if (page == 5)
+{
+    <h3>Awards</h3>
+    <ul>
+        @foreach (var award in Model.Awards)
+        {
+            <li>@award</li>
+        }
+    </ul>
+
+    <h3>Volunteer Work</h3>
+    <ul>
+        @foreach (var work in Model.VolunteerWork)
+        {
+            <li>@work</li>
+        }
+    </ul>
+}
+else if (page == 6)
+{
+    <h3>Tax Calculator</h3>
+    <form asp-action="CalculateTax" method="post">
+        <div class="form-group">
+            <label for="income">Enter your income:</label>
+            <input type="number" name="income" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Calculate Tax</button>
+    </form>
+
+    @if (ViewBag.Tax != null)
+    {
+        <p>Your Income: @ViewBag.Income</p>
+        <p>Your Tax: @ViewBag.Tax</p>
+    }
+}
+
+<!-- Pagination Controls -->
+<div class="pagination-controls">
+    @if (page > 1)
+    {
+        <a href="@Url.Action("Resume", "Resume", new { page = page - 1 })" class="btn btn-secondary">Previous</a>
+    }
+
+    @if (page < 6)
+    {
+        <a href="@Url.Action("Resume", "Resume", new { page = page + 1 })" class="btn btn-primary">Next</a>
+    }
+</div>
